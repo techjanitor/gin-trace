@@ -10,7 +10,7 @@ import (
 type traceError *gin.Error
 
 // add custom stringer method to gin error type
-func (e *traceError) String() string {
+func (e traceError) String() string {
 	return fmt.Sprintf("Error: %s\nMeta: %s", e.Err, e.Meta)
 }
 
@@ -27,7 +27,7 @@ func Trace() gin.HandlerFunc {
 			if len(c.Errors) != 0 {
 				// loop through errors
 				for _, err := range c.Errors {
-					tr.LazyLog(&traceError(err), false)
+					tr.LazyLog(traceError(err), false)
 				}
 				tr.SetError()
 			}
