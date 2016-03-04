@@ -3,7 +3,6 @@ package trace
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"golang.org/x/net/trace"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -24,7 +23,7 @@ func TestTraceController(t *testing.T) {
 
 	router.Use(Trace())
 
-	r.GET("/debug/requests", TraceController)
+	router.GET("/debug/requests", TraceController)
 
 	first := performRequest(router, "GET", "/debug/requests")
 
