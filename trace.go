@@ -24,7 +24,7 @@ func Trace() gin.HandlerFunc {
 }
 
 // TraceController returns the default trace requests page
-// example handler: r.GET("/debug/requests", trace.RequestsController)
+// example handler: r.GET("/debug/requests", trace.TraceController)
 func TraceController(c *gin.Context) {
 	// render the requests page
 	trace.Render(c.Writer, c.Request, false)
