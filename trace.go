@@ -7,10 +7,10 @@ import (
 	"net/http"
 )
 
-type traceError gin.Error
+type traceError *gin.Error
 
 // add custom stringer method to gin error type
-func (e *traceError) String() string {
+func (e traceError) String() string {
 	return fmt.Sprintf("Error: %s\nMeta: %s", e.Err, e.Meta)
 }
 
