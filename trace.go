@@ -20,7 +20,7 @@ func Trace() gin.HandlerFunc {
 			if len(c.Errors) != 0 {
 				// loop through errors
 				for _, err := range c.Errors {
-					tr.LazyLog(err.Err), false)
+					tr.LazyLog(err.Err, false)
 				}
 				tr.SetError()
 			}
