@@ -1,6 +1,7 @@
 package trace
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/trace"
 	"net/http"
@@ -19,7 +20,7 @@ func Trace() gin.HandlerFunc {
 			if len(c.Errors) != 0 {
 				// loop through errors
 				for _, err := range c.Errors {
-					tr.LazyLog(err, false)
+					tr.LazyLog(fmt.Sprintf("Error: %s\nMeta: %s", err.Err, err.Meta), false)
 				}
 				tr.SetError()
 			}
