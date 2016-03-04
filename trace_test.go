@@ -17,7 +17,7 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 
 func TestTraceController(t *testing.T) {
 
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 
 	router := gin.New()
 
@@ -28,5 +28,21 @@ func TestTraceController(t *testing.T) {
 	first := performRequest(router, "GET", "/debug/requests")
 
 	assert.Equal(t, first.Code, 200, "HTTP request code should match")
+
+}
+
+func TestTraceRelease(t *testing.T) {
+
+	gin.SetMode(gin.ReleaseMode)
+
+	router := gin.New()
+
+	router.Use(Trace())
+
+	router.GET("/debug/requests", TraceController)
+
+	first := performRequest(router, "GET", "/debug/requests")
+
+	assert.Equal(t, first.Code, 404, "HTTP request code should match")
 
 }

@@ -3,22 +3,34 @@ package trace
 import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/trace"
+	"net/http"
 )
 
 // Trace will gather information from the request and also add the trace methods to handlers
 func Trace() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		// a new trace
-		tr := trace.New(c.HandlerName(), c.Request.URL.Path)
+		if gin.IsDebugging() {
+			// a new trace
+			tr := trace.New(c.HandlerName(), c.Request.URL.Path)
 
-		// access the trace methods from subsequent handlers
-		c.Set("trace", tr)
+			c.Next()
+
+			if len(c.Errors) != 0 {
+				// loop through errors
+				for _, err := range c.Errors {
+					tr.LazyLog(err, false)
+				}
+				tr.SetError()
+			}
+
+			// finish the trace
+			tr.Finish()
+
+			return
+		}
 
 		c.Next()
-
-		// finish the trace
-		tr.Finish()
 
 	}
 }
@@ -26,7 +38,13 @@ func Trace() gin.HandlerFunc {
 // TraceController returns the default trace requests page
 // example handler: r.GET("/debug/requests", trace.TraceController)
 func TraceController(c *gin.Context) {
-	// render the requests page
-	trace.Render(c.Writer, c.Request, false)
+
+	if gin.IsDebugging() {
+		// render the requests page
+		trace.Render(c.Writer, c.Request, false)
+	}
+
+	c.String(http.StatusNotFound, "Not found")
+
 	return
 }
