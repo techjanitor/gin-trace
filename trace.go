@@ -22,17 +22,11 @@ func Trace() gin.HandlerFunc {
 
 // r.GET("/debug/requests", trace.RequestsController)
 func RequestsController(c *gin.Context) {
-
 	// render the requests page
-	trace.Render(c.Writer, c.Request)
-
-	return
+	return trace.Render(c.Writer, c.Request, false)
 }
 
 func EventsController(c *gin.Context) {
-
-	// render the requests page
-	trace.RenderEvents(c.Writer, c.Request)
-
-	return
+	// render the events page
+	return trace.RenderEvents(c.Writer, c.Request, false)
 }
