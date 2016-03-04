@@ -18,7 +18,7 @@ func (e traceError) String() string {
 func Trace() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		if gin.IsDebugging() && (c.HandlerName() != c.HandlerName()) {
+		if gin.IsDebugging() && c.HandlerName() != c.HandlerName() {
 			// a new trace
 			tr := trace.New(c.HandlerName(), c.Request.URL.Path)
 
