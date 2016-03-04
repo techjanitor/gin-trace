@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type traceError *gin.Error
+type traceError gin.Error
 
 // add custom stringer method to gin error type
 func (e traceError) String() string {
@@ -27,7 +27,7 @@ func Trace() gin.HandlerFunc {
 			if len(c.Errors) != 0 {
 				// loop through errors
 				for _, err := range c.Errors {
-					tr.LazyLog(traceError(err), false)
+					tr.LazyLog(traceError(*err), false)
 				}
 				tr.SetError()
 			}
