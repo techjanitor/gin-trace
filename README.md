@@ -18,7 +18,3 @@ https://godoc.org/golang.org/x/net/trace
     // Add the controller to view the default request handler
 	router.GET("/debug/requests", trace.TraceController)
 ```
-
-The middleware also exports the default trace methods into your handlers, they can be accessed with:
-
-``` c.MustGet("trace") ```
