@@ -50,9 +50,9 @@ func TraceController(c *gin.Context) {
 	if gin.IsDebugging() {
 		// render the requests page
 		trace.Render(c.Writer, c.Request, false)
+		return
 	}
 
 	c.String(http.StatusNotFound, "Not found")
-
 	return
 }
