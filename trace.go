@@ -19,3 +19,20 @@ func Trace() gin.HandlerFunc {
 
 	}
 }
+
+// r.GET("/debug/requests", trace.RequestsController)
+func RequestsController(c *gin.Context) {
+
+	// render the requests page
+	trace.Render(c.Writer, c.Request)
+
+	return
+}
+
+func EventsController(c *gin.Context) {
+
+	// render the requests page
+	trace.RenderEvents(c.Writer, c.Request)
+
+	return
+}
